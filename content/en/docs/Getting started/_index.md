@@ -1,35 +1,40 @@
+
 ---
 title: "Getting Started"
 linkTitle: "Getting Started"
-weight: 2
+weight: 1
+date: 2020-10-04
 description: >
-  What does your user need to know to try your project?
+  It is recommended to get familiar with the AAD Pod Identity ecosystem before diving into the demo. It consists of the Managed Identity Controller (MIC) deployment, the Node Managed Identity (NMI) DaemonSet, and several standard and custom resources.
 ---
 
-{{% pageinfo %}}
-This is a placeholder page that shows you how to use this template site.
-{{% /pageinfo %}}
 
-Information in this section helps your user try your project themselves.
+## Role Assignment
 
-* What do your users need to do to start using your project? This could include downloading/installation instructions, including any prerequisites or system requirements.
+Your cluster will need the correct role assignment configuration to perform Azure-related operations such as assigning and un-assigning the identity on the underlying VM/VMSS. You can run the following commands to help you set up the appropriate role assignments for your cluster identity before deploying aad-pod-identity (assuming you are running an AKS cluster):
 
-* Introductory “Hello World” example, if appropriate. More complex tutorials should live in the Tutorials section.
+```bash
+export SUBSCRIPTION_ID="<SubscriptionID>"
+export RESOURCE_GROUP="<AKSResourceGroup>"
+export CLUSTER_NAME="<AKSClusterName>"
+export CLUSTER_LOCATION="<AKSClusterLocation>"
 
-Consider using the headings below for your getting started page. You can delete any that are not applicable to your project.
+# if you are planning to deploy your user-assigned identities in a separate resource group
+export IDENTITY_RESOURCE_GROUP="<IdentityResourceGroup>"
 
-## Prerequisites
+./hack/role-assignment.sh
+```
 
-Are there any system requirements for using your project? What languages are supported (if any)? Do users need to already have any software or tools installed?
+> Note: `<AKSResourceGroup>` is where your AKS cluster is deployed to.
 
-## Installation
+For more details, please refer to the [role assignment](./docs/readmes/README.role-assignment.md) documentation.
 
-Where can your user find your project code? How can they install it (binaries, installable package, build from source)? Are there multiple options/versions they can install and how should they choose the right one for them?
 
-## Setup
+## What's next?
 
-Is there any initial setup users need to do after installation to try your project?
+* [Add content and customize your site](/docs/adding-content/)
+* Get some ideas from our [Example Site](https://github.com/google/docsy-example) and other [Examples](/docs/examples/).
+* [Publish your site](/docs/deployment/).
 
-## Try it out!
 
-Can your users test their installation, for example by running a command or deploying a Hello World example?
+	

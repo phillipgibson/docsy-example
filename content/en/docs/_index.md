@@ -2,23 +2,45 @@
 ---
 title: "Documentation"
 linkTitle: "Documentation"
-weight: 20
 menu:
   main:
     weight: 20
 ---
 
-{{% pageinfo %}}
-This is a placeholder page that shows you how to use this template site.
-{{% /pageinfo %}}
+AAD Pod Identity enables Kubernetes applications to access cloud resources securely with [Azure Active Directory] (AAD).
 
+Using Kubernetes primitives, administrators configure identities and bindings to match pods. Then without any code modifications, your containerized applications can leverage any resource in the cloud that depends on AAD as an identity provider.
 
-This section is where the user documentation for your project lives - all the information your users need to understand and successfully use your project. 
+## v1.6.0 Breaking Change
 
-For large documentation sets we recommend adding content under the headings in this section, though if some or all of them don’t apply to your project feel free to remove them or add your own. You can see an example of a smaller Docsy documentation site in the [Docsy User Guide](https://docsy.dev/docs/), which lives in the [Docsy theme repo](https://github.com/google/docsy/tree/master/userguide) if you'd like to copy its docs section. 
+With https://github.com/Azure/aad-pod-identity/pull/398, the [client-go](https://github.com/kubernetes/client-go) library is upgraded to v0.17.2, where CRD [fields are now case sensitive](https://github.com/kubernetes/kubernetes/issues/64612). If you are upgrading MIC and NMI from v1.x.x to v1.6.0, MIC v1.6.0+ will upgrade the fields of existing `AzureIdentity` and `AzureIdentityBinding` on startup to the new format to ensure backward compatibility. A configmap called `aad-pod-identity-config` is created to record and confirm the successful type upgrade.
 
-Other content such as marketing material, case studies, and community updates should live in the [About](/about/) and [Community](/community/) pages.
+However, for future `AzureIdentity` and `AzureIdentityBinding` created using v1.6.0+, the following fields need to be changed:
 
-Find out how to use the Docsy theme in the [Docsy User Guide](https://docsy.dev/docs/). You can learn more about how to organize your documentation (and how we organized this site) in [Organizing Your Content](https://docsy.dev/docs/best-practices/organizing-content/).
+### `AzureIdentity`
+
+| < 1.6.0          | >= 1.6.0         |
+| ---------------- | ---------------- |
+| `ClientID`       | `clientID`       |
+| `ClientPassword` | `clientPassword` |
+| `ResourceID`     | `resourceID`     |
+| `TenantID`       | `tenantID`       |
+
+### `AzureIdentityBinding`
+
+| < 1.6.0         | >= 1.6.0        |
+| --------------- | --------------- |
+| `AzureIdentity` | `azureIdentity` |
+| `Selector`      | `selector`      |
+
+### `AzurePodIdentityException`
+
+| < 1.6.0     | >= 1.6.0    |
+| ----------- | ----------- |
+| `PodLabels` | `podLabels` |
+
+## Ready to get started?
+
+To get started, see the [Getting Started](./getting-started/) page, or you can visit the [GitHub repo](https://github.com/Azure/aad-pod-identity). 
 
 
